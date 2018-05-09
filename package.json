@@ -1,0 +1,21 @@
+{
+  "name": "niazi_whiteliste",
+  "version": "0.0.0",
+  "description": "a module to whiteliste certain domains from a SQL DB ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "supervisor local/server.js"
+  },
+  "author": "NIAZI CHAARI",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mysql": "^2.15.0",
+    "request": "^2.85.0",
+    "socket.io": "^2.1.0"
+  },
+  "devDependencies": {
+    "supervisor": "^0.12.0"
+  }
+}
