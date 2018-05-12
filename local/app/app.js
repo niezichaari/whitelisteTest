@@ -12,13 +12,16 @@ const table = createReactClass({
         label: 'User_agent '
       },
       {
+        label: 'date & time '
+      },
+      {
         label: 'Blocked '
       },
       {
         label: 'nombre de fois'
       }
     ];
-    var nbr_de_fois = [];
+    //Function from w3school to customize sort
     var sort_by = function(field, reverse, primer) {
 
       var key = function(x) {
@@ -31,56 +34,144 @@ const table = createReactClass({
         return ((A < B) ? -1 : (A > B) ? +1 : 0) * [-1, 1][+!!reverse];
       }
     }
+    //sort by alphabetical order
     var rept = this.props.results.sort(sort_by('url', false, function(a) {
       return a.toUpperCase()
-    })); //pour un tri alphabetique insensible à la casse
+    }));
     ;
-    let test = 0;
-    var pr = rept[0].url;
+    //count repetition of every urls to get the final number
+    let count = 0;
+    let pr = rept[0].url;
     let sum = rept.map((e, i) => {
       if (e.url == pr) {
-        test++;
+        count++;
         pr = e.url;
-        console.log(test);
         if (i == rept.length - 1) {
-          nbr_de_fois.push(test);
+          e.nbr_de_fois = count;
         }
       } else {
-        nbr_de_fois.push(test);
-        test = 1
+        rept[i-1].nbr_de_fois = count;
+        count = 1
         pr = e.url;
       }
-console.log(nbr_de_fois);
     })
-    return React.createElement("table", {style: {border: "3px solid #6495ed"}},
+    return React.createElement("table", {
+        style: {
+          border: "3px solid #6495ed",
+          padding: "0.5rem",
+          bordercollapse: "collapse",
+          emptycells: "hide"
+
+        }
+      },
       React.createElement("body", null,
         React.createElement("tr", null,
           cols.map(function(colData) {
-            return React.createElement("th", {style :{borderLeft:"1px solid #6495ed",borderBottom:"1px solid #6495ed"}}, colData.label)
+            return React.createElement("th", {
+              style: {
+                borderLeft: "1px solid #6495ed",
+                borderBottom: "1px solid #6495ed",
+                bordercollapse: "collapse"
+              }
+            }, colData.label)
           })
 
         ),
-        React.createElement("td", {style :{borderLeft:"1px solid #6495ed"}},
+        React.createElement("td", {
+            style: {
+              border: "1px solid #6495ed",
+              bordercollapse: "collapse"
+
+            }
+          },
+          this.props.results.map(e=> {
+            return React.createElement("tr", {
+              style: {
+                border: "1px solid #6495ed",
+                bordercollapse: "collapse"
+              }
+            }, e.url)
+          })
+
+        ),
+        React.createElement("td", {
+            style: {
+              border: "1px solid #6495ed",
+              bordercollapse: "collapse"
+            }
+          },
           this.props.results.map(function(colData) {
-            return React.createElement("tr", null, colData.url)
+            return React.createElement("tr", {
+              style: {
+                border: "1px solid #6495ed",
+                bordercollapse: "collapse"
+              }
+            }, colData.user_agent)
           })
 
         ),
-        React.createElement("td", {style :{borderLeft:"1px solid #6495ed"}},
+        React.createElement("td", {
+            style: {
+              border: "1px solid #6495ed",
+              bordercollapse: "collapse"
+
+            }
+          },
           this.props.results.map(function(colData) {
-            return React.createElement("tr", null, colData.user_agent)
+            return React.createElement("tr", {
+              style: {
+                border: "1px solid #6495ed",
+                bordercollapse: "collapse"
+
+              }
+            }, colData.date_time)
           })
 
         ),
-        React.createElement("td", {style :{borderLeft:"1px solid #6495ed"}},
+        React.createElement("td", {
+            style: {
+              border: "1px solid #6495ed",
+              bordercollapse: "collapse"
+
+            }
+          },
           this.props.results.map(function(colData) {
-            return React.createElement("tr", null, colData.blocked)
+            return React.createElement("tr", {
+              style: {
+                border: "1px solid #6495ed",
+                bordercollapse: "collapse"
+
+              }
+            }, colData.blocked)
           })
 
         ),
-        React.createElement("td rowSpan=2", {style :{borderLeft:"1px solid #6495ed"}},
-          nbr_de_fois.map(function(colData) {
-            return React.createElement("tr", {style:{}}, colData)
+        React.createElement("td", {
+            style: {
+              border: "1px solid #6495ed",
+              bordercollapse: "collapse"
+            }
+          },
+          this.props.results.map((e,i)=> {
+            if (e.nbr_de_fois!=null) {
+              return React.createElement("tr", {
+                style: {
+                  border: "1px solid #6495ed",
+                  padding: "0.5rem",
+                  bordercollapse: "collapse",
+                }
+              }, e.nbr_de_fois)
+            }
+            else {
+              return React.createElement("tr", {
+                style: {
+                  border: "1px solid #6495ed",
+                  padding: "0.5rem",
+                  bordercollapse: "collapse",
+                }
+              }, "_")
+            }
+
           })
 
         )
